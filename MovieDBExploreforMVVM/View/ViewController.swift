@@ -11,7 +11,12 @@ import UIKit
 
 class ViewController: UIViewController {
 //    MARK: Property
-    var firstTableView: UITableView?
+    var firstTableView: UITableView? = {
+        let firstTableView = UITableView()
+        firstTableView.translatesAutoresizingMaskIntoConstraints = false
+        firstTableView.register(MovieFirstPageCell.self, forCellReuseIdentifier: "MovieFirstPageCell")
+        return firstTableView
+    }()
     
     var obj : MovieListViewModel? = MovieListViewModel()
     
@@ -22,11 +27,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         view.backgroundColor = .white
-        firstTableView = UITableView()
-        firstTableView?.dataSource = self
-        firstTableView?.delegate = self
-        firstTableView?.translatesAutoresizingMaskIntoConstraints = false
-        firstTableView?.register(MovieFirstPageCell.self, forCellReuseIdentifier: "MovieFirstPageCell")
+        
         
         //load mockdata
         obj?.MockData()
@@ -35,6 +36,8 @@ class ViewController: UIViewController {
     }
     //  MARK: Adding Subviews and Constraints
     func addSubviewsConstraints(){
+        firstTableView?.dataSource = self
+        firstTableView?.delegate = self
         if let firstTableView = firstTableView {
             view.addSubview(firstTableView)
             NSLayoutConstraint.activate([
